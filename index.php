@@ -60,7 +60,8 @@ foreach ($events as $event) {
 					$userId = $value;
 					//$userDesu = 'Uc64bc90653c1720b782cfd704c515833';
 
-					$response = $bot->pushMessage($userId, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message));
+					$response = $bot->pushMessage($userId,
+					    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message));
 					//$response = $bot->pushMessage($userDesu, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($userId));
 
 					if (!$response->isSucceeded()) {
