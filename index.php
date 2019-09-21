@@ -105,7 +105,8 @@ foreach ($events as $event) {
 					foreach($data as $value){
 						$userId = $value;
 						
-						$response = $bot->pushMessage($userId, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message));
+						$response = $bot->pushMessage($userId,
+						    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message));
 
 						if (!$response->isSucceeded()) {
 							error_log('Failed!' . $response->getHTTPStatus . ' ' . $response->getRawBody());
