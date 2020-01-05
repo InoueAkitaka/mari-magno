@@ -196,7 +196,8 @@ foreach ($events as $event) {
 			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤する', 'A,' . $userSrg),
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
-			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', 'http://google.jp')
+			//new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', 'http://google.jp')
+			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $userSrg),
 		);
 
 	}
@@ -381,6 +382,22 @@ function getUserCd($userSrg) {
 	return $data;
 }
 
+// CSV出力
+function createCSV() {
+
+	$data = [
+	    ['ID', '名前', '年齢'],
+	    ['1', '田中', '30'],
+	    ['2', '小林', '26'],
+	    ['3', '江口', '32']
+	];
+ 
+	$file = new SplFileObject('member.csv', 'w');
+ 
+	foreach ($data as $line) {
+		$file->fputcsv($line);
+	}
+}
 
 // POSTメソッドで渡される値を取得、表示
 //$inputString = file_get_contents('php://input');
