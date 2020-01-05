@@ -198,8 +198,8 @@ foreach ($events as $event) {
 			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤する', 'A,' . $userSrg),
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
-			//new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', 'http://google.jp')
-			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $userSrg),
+			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', 'https://test-app-csv-mari-magno.herokuapp.com/')
+			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $userSrg),
 		);
 
 	}
