@@ -386,7 +386,7 @@ function getUserCd($userSrg) {
 
 // CSV出力
 function createCSV() {
-	private $message = [];
+	$message = [];
 	$data = [
 	    ['ID', '名前', '年齢'],
 	    ['1', '田中', '30'],
@@ -400,11 +400,11 @@ function createCSV() {
 		$file->fputcsv($line);
 	}
 	
-	$this->message[] = [
+	$message[] = [
 		'type' => 'file',
 		'fileName' => $file
 	];
-	return $this->message;
+	return $message;
 }
 
 // POSTメソッドで渡される値を取得、表示
