@@ -77,7 +77,9 @@ foreach ($events as $event) {
 		}
 		else if (strpos($arrData[0], 'B') !== false) {
 			// 一旦現在時間を出す
-			replyTextMessage($bot, $event->getReplyToken(), date("Ymd") . '!!!');
+			$csvMessage = createCSV();
+			
+			replyFileMessage($bot, $event->getReplyToken(), $csvMessage);
 		}
 		else if (strpos($arrData[0], 'C') !== false) {
 			// 出勤情報の存在をチェックする
@@ -384,19 +386,25 @@ function getUserCd($userSrg) {
 
 // CSV出力
 function createCSV() {
-
+	$message = [];
 	$data = [
 	    ['ID', '名前', '年齢'],
 	    ['1', '田中', '30'],
 	    ['2', '小林', '26'],
 	    ['3', '江口', '32']
 	];
- 
+
 	$file = new SplFileObject('member.csv', 'w');
  
 	foreach ($data as $line) {
 		$file->fputcsv($line);
 	}
+	
+	message[] = [
+                'type' => 'file',
+                'fileName' => $file
+            ];
+	return $message;
 }
 
 // POSTメソッドで渡される値を取得、表示
@@ -414,6 +422,18 @@ function replyTextMessage($bot, $replyToken, $text) {
 
 	// TextMessageBuilderの引数はテキスト
 	$response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
+	
+	// レスポンスが異常な場合
+	if (!$response->isSucceeded()) {
+		error_log('Failed! '. $response->getHTTPStatus . ' '. $response->getRawBody());
+	}
+}
+
+// ファイルを返信。引数はLINEBot、返信先、ファイルメッセージ
+function replyFileMessage($bot, $replyToken, $fileMessage) {
+
+	// TextMessageBuilderの引数はテキスト
+	$response = $bot->replyMessage($replyToken, $fileMessage);
 	
 	// レスポンスが異常な場合
 	if (!$response->isSucceeded()) {
