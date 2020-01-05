@@ -386,7 +386,7 @@ function getUserCd($userSrg) {
 
 // CSV出力
 function createCSV() {
-	privete $message = [];
+	private $message = [];
 	$data = [
 	    ['ID', '名前', '年齢'],
 	    ['1', '田中', '30'],
