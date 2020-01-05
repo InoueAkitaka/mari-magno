@@ -404,7 +404,7 @@ function createCSV() {
 		'type' => 'file',
 		'fileName' => $file
 	];
-	return $message;
+	return $this->message;
 }
 
 // POSTメソッドで渡される値を取得、表示
