@@ -386,7 +386,7 @@ function getUserCd($userSrg) {
 
 // CSV出力
 function createCSV() {
-	$message = [];
+	privete $message = [];
 	$data = [
 	    ['ID', '名前', '年齢'],
 	    ['1', '田中', '30'],
@@ -400,10 +400,10 @@ function createCSV() {
 		$file->fputcsv($line);
 	}
 	
-	message[] = [
-                'type' => 'file',
-                'fileName' => $file
-            ];
+	$this->message[] = [
+		'type' => 'file',
+		'fileName' => $file
+	];
 	return $message;
 }
 
