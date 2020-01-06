@@ -53,9 +53,13 @@ foreach ($events as $event) {
 				registerAttendTime($arrData[1]);
 				replyTextMessage($bot, $event->getReplyToken(), '出勤登録しました。' . date("H:i:s"));
 
+				// 上長のユーザを取得
 				$data = getUserCd($arrData[1]);
+				
+				// 出勤メッセージを加工
 				$message = getMessage($arrData[1], '出勤');
 
+				// 所属する上長へメッセージを送信(複数いる場合は取得したユーザ情報分送信する)
 				foreach($data as $value){
 					$userId = $value;
 					//$userDesu = 'Uc64bc90653c1720b782cfd704c515833';
@@ -190,7 +194,7 @@ foreach ($events as $event) {
 		//$bot->replyText($event->getReplyToken(), "出勤！！！");
 		$urlCSV = "https://test-app-csv-mari-magno.herokuapp.com/?page=";
 
-		$urlCSV = $urlCSV . (string)$userSrg;
+		$urlCSV = $urlCSV . (string)$userId;
 
 		replyButtonsTemplate(
 			$bot,
