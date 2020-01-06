@@ -188,9 +188,9 @@ foreach ($events as $event) {
 	else if ($attendFlg) {
 		// 出勤の場合
 		//$bot->replyText($event->getReplyToken(), "出勤！！！");
-		$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/';
+		$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/?page=';
 
-		//$urlCSV = $uslCSV . $userSrg;
+		$urlCSV = $uslCSV . $userSrg;
 
 		replyButtonsTemplate(
 			$bot,
