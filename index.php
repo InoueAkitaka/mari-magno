@@ -188,9 +188,9 @@ foreach ($events as $event) {
 	else if ($attendFlg) {
 		// 出勤の場合
 		//$bot->replyText($event->getReplyToken(), "出勤！！！");
-		$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/?page=';
+		$urlCSV = "https://test-app-csv-mari-magno.herokuapp.com/?page=";
 
-		$urlGetCSV = $uslCSV . (string)$userSrg;
+		$urlCSV = $urlCSV . (string)$userSrg;
 
 		replyButtonsTemplate(
 			$bot,
@@ -202,7 +202,7 @@ foreach ($events as $event) {
 			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤する', 'A,' . $userSrg),
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
-			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', $urlGetCSV),
+			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', $urlCSV),
 			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $userSrg)
 		);
 
