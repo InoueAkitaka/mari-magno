@@ -190,7 +190,7 @@ foreach ($events as $event) {
 		//$bot->replyText($event->getReplyToken(), "出勤！！！");
 		$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/?page=';
 
-		$urlCSV = $uslCSV . $userSrg;
+		$urlCSV = $uslCSV . (string)$userSrg;
 
 		replyButtonsTemplate(
 			$bot,
