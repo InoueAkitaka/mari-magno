@@ -199,7 +199,7 @@ foreach ($events as $event) {
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
 			
-			$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/?page=125';
+			$urlCSV = 'https://test-app-csv-mari-magno.herokuapp.com/';
 			
 			//$urlCSV = $uslCSV . $userSrg;
 			
