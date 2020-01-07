@@ -83,7 +83,7 @@ foreach ($events as $event) {
 			// 一旦現在時間を出す
 			//$csvMessage = createCSV();
 			
-			replyTextMessage($bot, $event->getReplyToken(), 'https://test-app-csv-mari-magno.herokuapp.com/?page=125');
+			replyTextMessage($bot, $event->getReplyToken(), $arrData[1]);
 		}
 		else if (strpos($arrData[0], 'C') !== false) {
 			// 出勤情報の存在をチェックする
@@ -207,7 +207,7 @@ foreach ($events as $event) {
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
 			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', $urlCSV),
-			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $userSrg)
+			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $urlCSV)
 		);
 
 	}
