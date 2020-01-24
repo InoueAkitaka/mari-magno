@@ -44,13 +44,16 @@ foreach ($events as $event) {
 		
 		$arrData = explode(',', $postbackData);
 		
+		// 時間を切り上げる
+		$nowEditTime = ceilPerTime(strtotime(date("H:i:s")), 15);
+		
 		if (strpos($arrData[0], 'A') !== false) {
 			// 出勤情報の存在をチェックする
 			$timeSrg = getAttendTimeData($arrData[1]);
 			
 			// 出勤情報が存在しない場合、出勤情報を登録する
 			if ($timeSrg === PDO::PARAM_NULL) {
-				registerAttendTime($arrData[1]);
+				registerAttendTime($arrData[1], $nowEditTime);
 				replyTextMessage($bot, $event->getReplyToken(), '出勤登録しました。' . date("H:i:s"));
 
 				// 上長のユーザを取得
@@ -100,7 +103,7 @@ foreach ($events as $event) {
 				
 				if ($leaveTimeSrg === PDO::PARAM_NULL) {
 					// 出勤済みかつ退勤していない場合は退勤時間を登録する
-					registerLeaveTime($arrData[1], $timeSrg);
+					registerLeaveTime($arrData[1], $timeSrg, $nowEditTime);
 					replyTextMessage($bot, $event->getReplyToken(), '退勤登録しました。' . date("H:i:s"));
 
 					$data = getUserCd($arrData[1]);
@@ -276,12 +279,12 @@ function getAttendTimeData($userSrg) {
 }
 
 // 出勤情報登録SQL
-function registerAttendTime($userSrg) {
+function registerAttendTime($userSrg, $editTime) {
 	$dbh = dbConnection::getConnection();
 	
-	$sql = 'insert into ' . T_TIME . ' (user_srg, stamp_date, attend_time) values (?, ?, ?)';
+	$sql = 'insert into ' . T_TIME . ' (user_srg, stamp_date, attend_time, attend_edit_time) values (?, ?, ?, ?)';
 	$sth = $dbh->prepare($sql);
-	$sth->execute(array($userSrg, date("Y/m/d"), date("H:i:s")));
+	$sth->execute(array($userSrg, date("Y/m/d"), date("H:i:s"), $editTime));
 }
 
 // 出勤時間取得SQL
@@ -319,12 +322,12 @@ function getLeaveTimeData($userSrg) {
 }
 
 // 退勤情報登録SQL
-function registerLeaveTime($userSrg, $timeSrg) {
+function registerLeaveTime($userSrg, $timeSrg, $editTime) {
 	$dbh = dbConnection::getConnection();
 	
-	$sql = 'update ' . T_TIME . ' set leave_time = ? where user_srg = ? and time_card_srg  = ?';
+	$sql = 'update ' . T_TIME . ' set leave_time = ?, leave_edit_time = ? where user_srg = ? and time_card_srg  = ?';
 	$sth = $dbh->prepare($sql);
-	$sth->execute(array(date("H:i:s"), $userSrg, $timeSrg));
+	$sth->execute(array(date("H:i:s"), $userSrg, $timeSrg, $editTime));
 }
 
 // 退勤時間取得SQL
@@ -588,6 +591,65 @@ class dbConnection {
 		
 		return self::$db;
 	}
+}
+
+/**
+ * 時間(hhmm)を指定した分単位で切り上げる
+ * 
+ * @param $time 時間と分の文字列(1130, 11:30など)
+ * @param $per 切り上げる単位(分) 5分なら5
+ * @return false or 切り上げられた DateTime オブジェクト(->fomat で自由にフォーマットして使用する)
+ */
+function ceilPerTime($time, $per){
+
+    // 値がない時、単位が0の時は false を返して終了する
+    if( !isset($time) || !is_numeric($per) || ($per == 0 )) {
+        return false;
+    }else{
+        $deteObj = new DateTime($time);
+        // 指定された単位で切り上げる
+        // フォーマット文字 i だと、 例えば1分が 2桁の 01 となる(1桁は無い）ので、整数に変換してから切り上げる
+        $ceil_num = ceil(sprintf('%d', $deteObj->format('i'))/$per) *$per;
+
+        // 切り上げた「分」が60になったら「時間」を1つ繰り上げる
+        // 60分 -> 00分に直す
+        $hour = $deteObj->format('H');
+
+        if( $ceil_num == 60 ) {
+            $hour = $deteObj->modify('+1 hour')->format('H');
+            $ceil_num = '00';
+        }
+        $have = $hour.sprintf( '%02d', $ceil_num );
+
+        return new DateTime($have);
+    }
+}
+
+/**
+ * 時間(hhmm)を指定した分単位で切り捨てる
+ * 
+ * @param $time 時間と分の文字列(1130, 11:30など)
+ * @param $per 切り捨てる単位(分) 5分なら5
+ * @return false or 切り捨てられた DateTime オブジェクト(->fomat で自由にフォーマットして使用する)
+ */
+function floorPerTime($time, $per){
+
+    // 値がない時、単位が0の時は false を返して終了する
+    if( !isset($time) || !is_numeric($per) || ($per == 0 )) {
+        return false;
+    }else{
+        $deteObj = new DateTime($time);
+
+        // 指定された単位で切り捨てる
+        // フォーマット文字 i だと、 例えば1分が 2桁の 01 となる(1桁は無い）ので、整数に変換してから切り捨てる
+        $ceil_num = floor(sprintf('%d', $deteObj->format('i'))/$per) *$per;
+
+        $hour = $deteObj->format('H');
+
+        $have = $hour.sprintf( '%02d', $ceil_num );
+
+        return new DateTime($have);
+    }
 }
 
 ?>
