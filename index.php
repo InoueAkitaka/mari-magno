@@ -327,7 +327,7 @@ function registerLeaveTime($userSrg, $timeSrg, $editTime) {
 	
 	$sql = 'update ' . T_TIME . ' set leave_time = ?, leave_edit_time = ? where user_srg = ? and time_card_srg  = ?';
 	$sth = $dbh->prepare($sql);
-	$sth->execute(array(date("H:i:s"), $userSrg, $timeSrg, $editTime));
+	$sth->execute(array(date("H:i:s"), $editTime, $userSrg, $timeSrg));
 }
 
 // 退勤時間取得SQL
