@@ -46,6 +46,7 @@ foreach ($events as $event) {
 		
 		// 時間を切り上げる
 		//$nowEditTime = ceilPerTime(strtotime(date("H:i:s")), 15);
+		$nowEditTime = date("H:i:s");
 		
 		if (strpos($arrData[0], 'A') !== false) {
 			// 出勤情報の存在をチェックする
