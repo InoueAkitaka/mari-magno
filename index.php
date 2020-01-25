@@ -240,8 +240,8 @@ foreach ($events as $event) {
 // DBからユーザ情報を取得
 function getUserData($userId) {
 	$dbh = dbConnection::getConnection();
-	//$sql = 'select * from ' . M_USER . ' where ? = pgp_sym_decrypt(user_secret_id, \'' . getenv('DB_ENCRYPT_PASS') . '\')';
-	$sql = 'select * from ' . M_USER . ' where user_id = ?';
+	$sql = 'select * from ' . M_USER . ' where ? = pgp_sym_decrypt(user_secret_id, \'' . getenv('DB_ENCRYPT_PASS') . '\')';
+	//$sql = 'select * from ' . M_USER . ' where user_id = ?';
 	$sth = $dbh->prepare($sql);
 	$sth->execute(array($userId));
 	
