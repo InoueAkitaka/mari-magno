@@ -211,7 +211,7 @@ foreach ($events as $event) {
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('出勤時間を変更する', 'B,' . $userSrg),
 			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', $urlCSV),
-			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $urlCSV)
+			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('CSV出力', 'B,' . $urlCSV)
 		);
 
 	}
@@ -229,7 +229,7 @@ foreach ($events as $event) {
 			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('退勤する', 'C,' . $userSrg),
 			// 変更は工事中
 			//new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder ('退勤時間を変更する', 'D' . $userSrg),
-			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', 'http://google.jp')
+			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder ('Webで見る', $urlCSV)
 		);
 	}
 	
